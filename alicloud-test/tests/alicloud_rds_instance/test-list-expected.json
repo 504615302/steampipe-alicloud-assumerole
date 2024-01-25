@@ -1,0 +1,6 @@
+[
+	{
+		"db_instance_storage": 30,
+		"zone_id": "{{ output.zone_id.value }}"
+	}
+]
