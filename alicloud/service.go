@@ -38,21 +38,29 @@ func AutoscalingService(ctx context.Context, d *plugin.QueryData) (*ess.Client, 
 		return cachedData.(*ess.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := ess.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := ess.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := ess.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // CasService returns the service connection for Alicloud SSL service
@@ -66,21 +74,29 @@ func CasService(ctx context.Context, d *plugin.QueryData, region string) (*cas.C
 		return cachedData.(*cas.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := cas.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := cas.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := cas.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // CmsService returns the service connection for Alicloud CMS service
@@ -96,21 +112,29 @@ func CmsService(ctx context.Context, d *plugin.QueryData) (*cms.Client, error) {
 		return cachedData.(*cms.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := cms.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := cms.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := cms.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // ECSService returns the service connection for Alicloud ECS service
@@ -126,21 +150,29 @@ func ECSService(ctx context.Context, d *plugin.QueryData) (*ecs.Client, error) {
 		return cachedData.(*ecs.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := ecs.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := ecs.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := ecs.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // ECSRegionService returns the service connection for Alicloud ECS Region service
@@ -154,21 +186,29 @@ func ECSRegionService(ctx context.Context, d *plugin.QueryData, region string) (
 		return cachedData.(*ecs.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := ecs.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := ecs.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := ecs.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // IMSService returns the service connection for Alicloud IMS service
@@ -180,7 +220,7 @@ func IMSService(ctx context.Context, d *plugin.QueryData) (*ims.Client, error) {
 		return cachedData.(*ims.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, _, _, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
@@ -215,21 +255,29 @@ func KMSService(ctx context.Context, d *plugin.QueryData) (*kms.Client, error) {
 		return cachedData.(*kms.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := kms.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := kms.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := kms.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // RAMService returns the service connection for Alicloud RAM service
@@ -242,21 +290,29 @@ func RAMService(ctx context.Context, d *plugin.QueryData) (*ram.Client, error) {
 		return cachedData.(*ram.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := ram.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := ram.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := ram.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // SLBService returns the service connection for Alicloud Server Load Balancer service
@@ -269,21 +325,29 @@ func SLBService(ctx context.Context, d *plugin.QueryData) (*slb.Client, error) {
 		return cachedData.(*slb.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := slb.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := slb.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := slb.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // StsService returns the service connection for Alicloud STS service
@@ -295,21 +359,29 @@ func StsService(ctx context.Context, d *plugin.QueryData) (*sts.Client, error) {
 		return cachedData.(*sts.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := sts.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := sts.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := sts.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // VpcService returns the service connection for Alicloud VPC service
@@ -325,21 +397,29 @@ func VpcService(ctx context.Context, d *plugin.QueryData) (*vpc.Client, error) {
 		return cachedData.(*vpc.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := vpc.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := vpc.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := vpc.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // OssService returns the service connection for Alicloud OSS service
@@ -353,7 +433,7 @@ func OssService(ctx context.Context, d *plugin.QueryData, region string) (*oss.C
 		return cachedData.(*oss.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, _, _, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
@@ -409,7 +489,7 @@ func GetDefaultRegion(connection *plugin.Connection) string {
 	return region
 }
 
-func getEnv(_ context.Context, d *plugin.QueryData) (secretKey string, accessKey string, err error) {
+func getEnv(_ context.Context, d *plugin.QueryData) (secretKey string, accessKey string, roleArn string, sessionName string, err error) {
 
 	// https://github.com/aliyun/aliyun-cli/blob/master/CHANGELOG.md#3040
 	// The CLI order of preference is:
@@ -453,8 +533,15 @@ func getEnv(_ context.Context, d *plugin.QueryData) (secretKey string, accessKey
 			}
 		}
 	}
+	if alicloudConfig.SessionName != nil {
+		sessionName = *alicloudConfig.SessionName
+	}
 
-	return accessKey, secretKey, nil
+	if alicloudConfig.RoleArn != nil {
+		roleArn = *alicloudConfig.RoleArn
+	}
+
+	return accessKey, secretKey, roleArn, sessionName, nil
 }
 
 // RDSService returns the service connection for Alicloud RDS service
@@ -468,21 +555,28 @@ func RDSService(ctx context.Context, d *plugin.QueryData, region string) (*rds.C
 		return cachedData.(*rds.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
-
-	// so it was not in cache - create service
-	svc, err := rds.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := rds.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := rds.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // ActionTrailService returns the service connection for Alicloud ActionTrail service
@@ -498,21 +592,29 @@ func ActionTrailService(ctx context.Context, d *plugin.QueryData) (*actiontrail.
 		return cachedData.(*actiontrail.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := actiontrail.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := actiontrail.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := actiontrail.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // ContainerService returns the service connection for Alicloud Container service
@@ -528,21 +630,29 @@ func ContainerService(ctx context.Context, d *plugin.QueryData) (*cs.Client, err
 		return cachedData.(*cs.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := cs.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := cs.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := cs.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }
 
 // SecurityCenterService returns the service connection for Alicloud Security Center service
@@ -557,19 +667,27 @@ func SecurityCenterService(ctx context.Context, d *plugin.QueryData, region stri
 		return cachedData.(*sas.Client), nil
 	}
 
-	ak, secret, err := getEnv(ctx, d)
+	ak, secret, roleArn, sessionName, err := getEnv(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
-	// so it was not in cache - create service
-	svc, err := sas.NewClientWithAccessKey(region, ak, secret)
-	if err != nil {
-		return nil, err
+	if roleArn == "" && sessionName == "" {
+		// so it was not in cache - create service
+		svc, err := sas.NewClientWithAccessKey(region, ak, secret)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
+	} else {
+		svc, err := sas.NewClientWithRamRoleArn(region, ak, secret, roleArn, sessionName)
+		if err != nil {
+			return nil, err
+		}
+		// cache the service connection
+		d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
+		return svc, nil
 	}
-
-	// cache the service connection
-	d.ConnectionManager.Cache.Set(serviceCacheKey, svc)
-
-	return svc, nil
 }

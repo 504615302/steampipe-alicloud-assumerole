@@ -9,6 +9,8 @@ type alicloudConfig struct {
 	AccessKey        *string  `hcl:"access_key"`
 	SecretKey        *string  `hcl:"secret_key"`
 	IgnoreErrorCodes []string `hcl:"ignore_error_codes,optional"`
+	RoleArn          *string  `hcl:"role_arn"`
+	SessionName      *string  `hcl:"session_name"`
 }
 
 func ConfigInstance() interface{} {
